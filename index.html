@@ -133,15 +133,24 @@
 
     </div>
 
+   
     <div id="finalPage" style="display: none;">
         <h2>Glückwunsch Junge! Du hast gut gemacht !!!</h2>
         <div class="image-container">
-            <img src="wash.gif" alt="Imagine finală">
+            <!-- Add an ID to your image for easier manipulation -->
+            <img id="finalGIF" src="wash.gif" alt="Imagine finală">
         </div>
         <button class="zuruck" onclick="goToStartPage()">Zurück</button>
     </div>
 
     <script>
+        // Wait for the page to load
+            window.onload = function () {
+                // Get a reference to the GIF element
+                var finalGIF = document.getElementById('finalGIF');
+                // Start the GIF playback
+                finalGIF.play();
+            };
         var clickCount = 0;
 
         function showImagePage() {
