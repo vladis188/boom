@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplicație cu bara de progres</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: rgb(59, 83, 117);
+            background: linear-gradient(194deg, rgba(59, 83, 117, 1) 0%, rgba(255, 176, 248, 0.873) 47%);
+            background-repeat: no-repeat;
+            background-size: cover;
+            height: 100vh;
+        }
+        h1,
+        h2 {
+            color: white;
+            background-color: rgb(0, 0, 0);
+        }
+
+        .start_btn {
+            padding: 15px;
+            border: none;
+            background-color: green;
+            color: white;
+            font-size: 25px;
+            border-radius: 10px;
+        }
+
+        .fick_mich {
+            padding: 15px;
+            border: 1px solid black;
+            color: rgb(255, 255, 255);
+            background-color: rgb(245, 35, 35);
+            font-size: 25px;
+            border-radius: 20px;
+        }
+
+        #progressBar {
+            width: 90%;
+            max-width: 300px;
+            height: 20px;
+            background-color: lightgray;
+            margin: 20px auto;
+            position: relative;
+        }
+
+        .zuruck {
+            padding: 10px;
+            background-color: green;
+            border-radius: 10px;
+            border: none;
+            color: white;
+            font-size: 16px;
+
+        }
+
+        #progress {
+            width: 0;
+            height: 100%;
+            background-color: rgb(255, 239, 68);
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        #progressText {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: rgb(0, 0, 0);
+            font-size: 18px;
+            padding: 15px;
+        }
+
+        .image-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .image-container button {
+            position: absolute;
+            top: 60%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+        }
+
+        img {
+            max-width: 80%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            border-radius: 40px;
+        }
+
+        @media (max-width: 600px) {
+            #progressBar {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <audio id="sound1" src="slap.mp3"></audio>
+    <audio id="sound2" src="face-punch-91909.mp3"></audio>
+    <audio id="sound3" src="fart.mp3"></audio>
+
+    <div id="startPage">
+        <h1>Luft anhalten und starten !</h1>
+        <div class="image-container">
+            <img src="luft.jpg" alt="">
+            <button class="start_btn" onclick="showImagePage()">Starten</button>
+        </div>
+    </div>
+
+    <div id="imagePage" style="display: none;">
+        <h2>Tante Jessica</h2>
+        <div class="image-container">
+            <img src="fatt.jpg" alt="Imagine">
+            <button class="fick_mich" onclick="increaseProgress()">Fick mich baby !</button>
+        </div>
+        <div id="progressBar">
+            <div id="progress"></div>
+            <div id="progressText">0%</div>
+        </div>
+        <button id="zuruckButton" class="zuruck" onclick="goToStartPage()" style="display:none;">Zurück</button>
+
+    </div>
+
+    <div id="finalPage" style="display: none;">
+        <h2>Glückwunsch Junge! Du hast gut gemacht !!!</h2>
+        <div class="image-container">
+            <img src="wash.gif" alt="Imagine finală">
+        </div>
+        <button class="zuruck" onclick="goToStartPage()">Zurück</button>
+    </div>
+
+    <script>
+        var clickCount = 0;
+
+        function showImagePage() {
+            document.getElementById('startPage').style.display = 'none';
+            document.getElementById('imagePage').style.display = 'block';
+        }
+
+        function increaseProgress() {
+            clickCount += 5;
+            var progressBar = document.getElementById('progress');
+            var progressText = document.getElementById('progressText');
+            var width = clickCount + '%';
+
+            progressBar.style.width = width;
+            progressText.textContent = width;
+
+            // Calculate color based on progress
+            var color = 'yellow';
+            if (clickCount > 80) {
+                color = 'red';
+            } else if (clickCount > 40) {
+                color = 'orange';
+            }
+            progressBar.style.backgroundColor = color;
+
+            // Play sound at specific percentages
+            if (clickCount === 10) {
+                document.getElementById('sound1').play();
+            } else if (clickCount === 20) {
+                document.getElementById('sound2').play();
+            } else if (clickCount === 45) {
+                document.getElementById('sound3').play();
+            } else if (clickCount % 10 === 0) { // Play slap sound every 10 clicks
+                document.getElementById('sound1').play();
+            }
+
+            if (clickCount === 100) {
+                showFinalImage();
+            }
+        }
+
+        function showFinalImage() {
+            document.getElementById('imagePage').style.display = 'none';
+            document.getElementById('finalPage').style.display = 'block';
+            document.getElementById('startPage').style.display = 'none'; // Ascunde startPage
+            document.getElementById('zuruckButton').style.display = 'block'; // Afișează butonul "Zurück"
+        }
+
+        function goToStartPage() {
+            document.getElementById('imagePage').style.display = 'none';
+            document.getElementById('finalPage').style.display = 'none'; // Ascunde finalPage
+            document.getElementById('startPage').style.display = 'block';
+            document.getElementById('progress').style.width = '0%';
+            document.getElementById('progressText').textContent = '0%';
+            clickCount = 0;
+            document.getElementById('zuruckButton').style.display = 'none'; // Ascunde butonul "Zurück"
+        }
+    </script>
+
+
+</body>
+
+</html>
